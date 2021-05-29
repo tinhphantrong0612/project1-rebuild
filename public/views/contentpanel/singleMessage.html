@@ -1,0 +1,97 @@
+<div class="float-right sent" ng-if="message.messageType == 'text' && message.senderId == userId">
+    <p title="{{message.sent}}">{{message.message}}</p>
+    <!-- <img class="avatar" title='{{message.sender}}' ng-src="/../img/avatar/{{message.sender}}.png"
+        onerror="this.src='../img/avatar/default.png'" /> -->
+</div>
+
+<div class="float-left replies" ng-if="message.messageType == 'text' && message.senderId != userId">
+    <p title="{{message.sent}}">{{message.message}}</p>
+    <img class="avatar" title='{{message.sender}}' ng-src="../img/avatar/{{message.sender}}.png"
+        onerror="this.src='../img/avatar/default.png'">
+</div>
+
+<span class="float-right sent" ng-if="message.messageType == 'image' && message.senderId == userId">
+    <div>
+        <img title="{{message.sent}}" class="img-message"
+            ng-src='../img/messages/{{messageId}}/{{message.messageIndex}}.{{message.messageExt}}' />
+        <!-- <img class="avatar" title='{{message.sender}}' ng-src="/../img/avatar/{{message.sender}}.png"
+            onerror="this.src='../img/avatar/default.png'" /> -->
+    </div>
+</span>
+
+<span class="float-left replies" ng-if="message.messageType == 'image' && message.senderId != userId">
+    <div>
+        <img title="{{message.sent}}" class="img-message"
+            ng-src='../img/messages/{{messageId}}/{{message.messageIndex}}.{{message.messageExt}}' />
+        <img class="avatar" title='{{message.sender}}' ng-src="../img/avatar/{{message.sender}}.png"
+            onerror="this.src='../img/avatar/default.png'">
+    </div>
+</span>
+
+<span class="float-right sent" ng-if="message.messageType == 'video' && message.senderId == userId">
+    <div>
+        <video title="{{message.sent}}" controls class="img-message"
+            ng-src='../img/messages/{{messageId}}/{{message.messageIndex}}.{{message.messageExt}}'></video>
+        <!-- <img class="avatar" title='{{message.sender}}' ng-src="/../img/avatar/{{message.sender}}.png"
+            onerror="this.src='../img/avatar/default.png'" /> -->
+    </div>
+</span>
+
+<span class="float-left replies" ng-if="message.messageType == 'video' && message.senderId != userId">
+    <div>
+        <video title="{{message.sent}}" controls class="img-message"
+            ng-src='../img/messages/{{messageId}}/{{message.messageIndex}}.{{message.messageExt}}'></video>
+        <img class="avatar" title='{{message.sender}}' ng-src="../img/avatar/{{message.sender}}.png"
+            onerror="this.src='../img/avatar/default.png'">
+    </div>
+</span>
+
+<div class="float-right sent row m-0" ng-if="message.messageType == 'attachment' && message.senderId == userId">
+    <p title="{{message.sent}}"><a class="text-white" href="../img/messages/{{messageId}}/{{message.messageIndex}}.{{message.messageExt}}"
+            download="{{message.message}}"><i class="fas fa-file"></i>{{message.message}}</a></p>
+    <!-- <img class="avatar" title='{{message.sender}}' ng-src="/../img/avatar/{{message.sender}}.png"
+            onerror="this.src='../img/avatar/default.png'" /> -->
+</div>
+
+<div class="float-left replies row m-0" ng-if="message.messageType == 'attachment' && message.senderId != userId">
+    <img class="avatar" title='{{message.sender}}' ng-src="../img/avatar/{{message.sender}}.png"
+        onerror="this.src='../img/avatar/default.png'">
+    <p title="{{message.sent}}"><a class="text-black" href="../img/messages/{{messageId}}/{{message.messageIndex}}.{{message.messageExt}}"
+            download="{{message.message}}"><i class="fas fa-file"></i>{{message.message}}</a></p>
+</div>
+
+<div class="float-right sent row m-0" ng-if="message.messageType == 'link' && message.senderId == userId">
+    <div class="link">
+        <p class="link" title="{{message.sent}}"><a title="{{message.messageExt}}"
+                href="{{message.messageExt}}" target="_blank">{{message.message}}</a></p>
+        <a title="{{message.messageExt}}" href="{{message.messageExt}}" target="_blank">
+            <div>
+                <div ng-hide="!message.iconLink">
+                    <img class="linkIcon" ng-src="{{message.iconLink}}" onerror="this.style.display='none'"/>
+                </div>
+                <p class="title" title="{{message.messageExt}}">{{message.title}}</p>
+            </div>
+        </a>
+    </div>
+    <!-- <img class="avatar" title='{{message.sender}}' ng-src="/../img/avatar/{{message.sender}}.png"
+        onerror="this.src='../img/avatar/default.png'" /> -->
+</div>
+
+<div class="float-left replies row m-0" ng-if="message.messageType == 'link' && message.senderId != userId">
+    <img class="avatar" title='{{message.sender}}' ng-src="../img/avatar/{{message.sender}}.png"
+        onerror="this.src='../img/avatar/default.png'">
+    <div class="link">
+        <p class="link" title="{{message.sent}}"><a title="{{message.messageExt}}"
+                href="{{message.messageExt}}" target="_blank">{{message.message}}</a></p>
+        <a title="{{message.messageExt}}" href="{{message.messageExt}}" target="_blank">
+            <div ng-hide="!message.iconLink">
+                <img class="linkIcon" ng-src="{{message.iconLink}}" onerror="this.style.display='none'"/>
+            </div>
+            <p class="title" title="{{message.messageExt}}">{{message.title}}</p>
+        </a>
+    </div>
+</div>
+
+<div class="inform-msg text-center" title="{{message.sent}}" ng-if="message.messageType == 'inform'">
+    {{message.message}}
+</div>

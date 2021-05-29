@@ -1,0 +1,39 @@
+<div class="container h-100 text-center">
+    <link href="../css/auth.css" rel="stylesheet">
+    <title>Register</title>
+    <div class="d-flex justify-content-center h-100">
+        <div class="card col-sm-10 col-md-5 col-lg-5">
+            <article class="card-body">
+                <button class="float-right btn btn-outline-primary"><a href="#!/login">Sign In</a></button>
+                <h4 class="card-title mb-4 mt-1 text-left">Sign up</h4>
+                <form action="">
+                    <div class="form-group text-left">
+                        <label>Your username</label>
+                        <input class="form-control" placeholder="Username" type="text" ng-model="username">
+                    </div> <!-- form-group// -->
+                    <div class="form-group text-left">
+                        <a class="float-right" href="#">Forgot?</a>
+                        <label>Your password</label>
+                        <input class="form-control" placeholder="Password" type="password" ng-model="password">
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label> <input type="checkbox"> Save password </label>
+                        </div> <!-- checkbox .// -->
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-block" ng-click="register()"> Register </button>
+                    </div> <!-- form-group// -->
+                    <div id="inform">
+                    </div>
+                    <!-- <button ng-click="vm.create()">
+                        Click to Create Account!
+                    </button>
+                    <button ng-click="vm.createMessage()">
+                        Click to Create Message!
+                    </button> -->
+                </form>
+            </article>
+        </div>
+    </div>
+</div>

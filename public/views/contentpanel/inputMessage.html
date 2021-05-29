@@ -1,0 +1,79 @@
+<div><input type="file" style="display: none;" id="fileChooser"></div>
+<div class="message-input card-footer p-0 border-0">
+    <span id="selectedFileDisplay"></span>
+    <div class="wrap">
+        <div class="input-group">
+            <div class="input-group-append">
+                <span class="input-group-text border-0 text-white text-center" ng-click="fileChooserTrigger()">
+                    <i class="fas fa-paperclip attachment" aria-hidden="true">
+                    </i>
+                </span>
+            </div>
+            <textarea type="text" ng-model="message" placeholder="Write your message..."></textarea>
+
+            <div class="input-group-prepend border-0" ng-click="send()">
+                <span class="input-group-text border-0 text-white text-center">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Notify -->
+<div class="modal fade" id="notify" tabindex="-1" role="dialog" aria-labelledby="notifyTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2c3e50;">
+                <h5 class="modal-title" id="notifyTitle">Notification</h5>
+                <button type="button" data-dismiss="modal" aria-label="Close" id="notifyCloseButton" ng-click="clearNotify()" class="close w-50">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-white bg-dark" ng-if="Notify.note">
+                {{Notify.note}}
+            </div>
+            <div class="modal-body text-white bg-dark" ng-if="!Notify.note">
+                File size must not exceed 10MB.
+            </div>
+            <div class="modal-footer" style="background-color: #2c3e50;">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearNotify()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User's information -->
+<div class="modal fade" id="user-information" tabindex="-1" role="dialog" aria-labelledby="user-informationTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2c3e50;">
+                <h5 class="modal-title" id="user-informationTitle">User's Information</h5>
+                <button type="button" data-dismiss="modal" aria-label="Close" id="user-informationCloseButton" ng-click="clearNotify()" class="close w-50">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-white bg-dark row">
+                <div>
+                    <input type="file" accept="image/*" style="display: none;" id="avatarChooser">
+                </div>
+                <div class="mr-5">
+                    <img id="user-info-avatar" ng-src="../img/avatar/{{User.username}}.png"
+                                            onerror="this.src='../img/avatar/default.png'"
+                                            class="rounded-circle user_img" style="width: 100px; height: 100px;">
+                </div>
+                <div class="p-2">
+                    <p>Username: {{User.username}}</p>
+                    <p>Friends: {{User.friendList.length}}</p>
+                    <p>Groups: {{User.groupList.length}}</p>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #2c3e50;">
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="changeAvatar()">Submit</button> -->
+                <button type="button" class="btn btn-primary w-100" data-dismiss="modal" ng-click="clear()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,157 @@
+<div class="contact-profile card-header p-0">
+    <div class="text-center" ng-if="!Message.receiver">Select a contact to start conversation.</div>
+    <img ng-if="Message.receiver" ng-src="/../img/avatar/{{Message.receiver}}.png" alt=""
+        onerror="this.src='../img/avatar/default.png'" />
+    <p ng-if="Message.receiver">{{Message.receiver}}</p>
+    <div class="social-media" ng-if="Message.receiver">
+        <!-- Group -->
+        <i ng-if="Message.receiverType == 'group'" class="fa fa-group" aria-hidden="true" title="Member List"
+            data-toggle="modal" data-target="#memberList"></i>
+        <i ng-if="Message.receiverType == 'group'" class="fa fa-user-plus" aria-hidden="true" title="Add member"
+            data-toggle="modal" data-target="#addMember" ng-click="getFriendsNotInGroup()"></i>
+        <i ng-if="Message.receiverType == 'group'" class="fa fa-sign-out" aria-hidden="true" title="Leave Group" ng-click="leaveGroup()"></i>
+        
+        <!-- Friend -->
+        <i ng-if="Message.receiverType == 'user'" class="fa fa-user-times" aria-hidden="true" title="Unfriend"
+            ng-click="unfriend()"></i>
+        <!-- <i class="fa fa-twitter" aria-hidden="true"></i>
+        <i class="fa fa-instagram" aria-hidden="true"></i> -->
+    </div>
+</div>
+
+<!-- Show friend information -->
+<!-- <div class="modal fade" id="friend-information" tabindex="-1" role="dialog" aria-labelledby="friend-informationTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2c3e50;">
+                <h5 class="modal-title" id="friend-informationTitle">Information</h5>
+                <button type="button" data-dismiss="modal" aria-label="Close" id="friend-informationCloseButton" ng-click="clear()" class="close w-50">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-white bg-dark row">
+                <div>
+                    <input type="file" accept="image/*" style="display: none;" id="avatarChooser">
+                </div>
+                <div class="mr-5">
+                    <img id="user-info-avatar" ng-src="../img/avatar/{{Message.receiver}}.png"
+                                            onerror="this.src='../img/avatar/default.png'"
+                                            class="rounded-circle user_img" style="width: 100px; height: 100px;">
+                </div>
+                <div class="p-2">
+                    <p>Username: {{Message.receiver}}</p>
+                    <p>Friends: {{User.friendList.length}}</p>
+                    <p>Groups: {{User.groupList.length}}</p>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #2c3e50;">
+                <button type="button" class="btn btn-primary w-100" data-dismiss="modal" ng-click="clear()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- Add people to group -->
+<div class="modal fade" id="addMember" tabindex="-1" role="dialog" aria-labelledby="addMemberTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2c3e50;">
+                <h5 class="modal-title" id="addMemberTitle">Add Member</h5>
+                <button type="button" class="close w-50" data-dismiss="modal" aria-label="Close" ng-click="clear()">
+                    <span aria-hidden="true" class="d-block text-lg-center">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-white bg-dark">
+                <div class="card bg-transparent contacts_card h-auto">
+                    <div class="card-header d-block bg-transparent p-0">
+                        <div class="search" style="display: block !important;">
+                            <label for="filtName"><i class="fa fa-search" aria-hidden="true"></i></label>
+                            <input class="w-100" type="search" placeholder="Search in friend list..."
+                                ng-change="filtFriend()" ng-model="filtName" />
+                        </div>
+                    </div>
+                    <div class="card-body contacts_body bg-transparent p-1" style="max-height: 350px !important;">
+                        <div class="text-white text-center" ng-if="!filtName && User.friendList.length == 0">You have no
+                            friend to add to this group.</div>
+                        <div class="text-white text-center"
+                            ng-if="!filtName && User.friendList.length !=0 && friendsNotInGroup.length == 0">All your
+                            friends already in this group.</div>
+                        <div class="text-white text-center" ng-if="filtName && filtResult.length == 0">No result.</div>
+                        <ui class="contacts">
+                            <li ng-if="!filtName" ng-repeat="friend in friendsNotInGroup">
+                                <div class="row justify-content-left" style="max-height: 50px !important;">
+                                    <div class="col-2">
+                                        <img ng-src="../img/avatar/{{friend.username}}.png"
+                                            onerror="this.src='../img/avatar/default.png'"
+                                            class="rounded-circle user_img" style="size: 50%;">
+                                    </div>
+                                    <div class="col-8 text-white">
+                                        <span>{{friend.username}}</span>
+                                    </div>
+                                    <input id="{{'checkbox-' + friend.username}}" type="checkbox" ng-click="changeList(friend.username, friend.userId)">
+                                </div>
+                            </li>
+
+                            <li ng-if="filtName" ng-repeat="friend in filtResult">
+                                <div class="row justify-content-left" style="max-height: 50px !important;">
+                                    <div class="col-2">
+                                        <img ng-src="../img/avatar/{{friend.username}}.png"
+                                            onerror="this.src='../img/avatar/default.png'"
+                                            class="rounded-circle user_img" style="size: 50%;">
+                                    </div>
+                                    <div class="col-8 text-white">
+                                        <span>{{friend.username}}</span>
+                                    </div>
+                                    <input id="{{'checkbox-' + friend.username}}" type="checkbox" ng-click="changeList(friend.username, friend.userId)">
+                                </div>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+                <div id="addMemberInform"></div>
+            </div>
+            <div class="modal-footer" style="background-color: #2c3e50;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="addToGroup()">Ok</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="clear()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Show member list -->
+<div class="modal fade" id="memberList" tabindex="-1" role="dialog" aria-labelledby="memberListTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2c3e50;">
+                <h5 class="modal-title" id="memberListTitle">Member List</h5>
+                <button type="button" class="close w-50" data-dismiss="modal" aria-label="Close" ng-click="clear()">
+                    <span aria-hidden="true" class="d-block text-lg-center">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-white bg-dark">
+                <div class="card bg-transparent contacts_card h-auto">
+                    <div class="card-body contacts_body bg-transparent p-1" style="max-height: 350px !important;">
+                        <ui class="contacts">
+                            <li ng-repeat="member in Message.memberList" style="border: 1px; border-color: white;">
+                                <div class="row justify-content-left" style="max-height: 50px !important;">
+                                    <div class="col-2">
+                                        <img ng-src="../img/avatar/{{member.username}}.png"
+                                            onerror="this.src='../img/avatar/default.png'"
+                                            class="rounded-circle user_img" style="size: 50%;">
+                                    </div>
+                                    <div class="text-white">
+                                        <span>{{member.username}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #2c3e50;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="clear()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

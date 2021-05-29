@@ -1,0 +1,265 @@
+<div class="search m-1">
+    <label for="searchName"><i class="fa fa-search" aria-hidden="true"></i></label>
+    <input type="search" ng-change="filt()" placeholder="Search contacts..." ng-model="filtName" />
+</div>
+<div id="contacts">
+    <div class="text-center m-0 m-md-2 m-lg-2" ng-if="User.friendList.length == 0 && User.groupList.length == 0 && !filtName">No contacts</div>
+    <div class="text-center m-0 m-md-2 m-lg-2" ng-if="friendFiltResult.length == 0 && groupFiltResult == 0 && filtName">No results</div>
+    <ul>
+        <li ng-repeat="friend in User.friendList track by friend.userId" ng-if="!filtName" class="contact">
+            <div ng-if="friend.userId == Message.receiverId" class="wrap active" title="{{friend.username}}">
+                <span ng-if="friend.status == 'online'" class="contact-status online"></span>
+                <span ng-if="friend.status != 'online'" class="contact-status"></span>
+                <img src="../img/avatar/{{friend.username}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{friend.username}}</p>
+                    <p class="preview" ng-if="!friend.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId == User.userId">You: {{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId != User.userId">{{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an link.
+                    </p>
+                </div>
+            </div>
+
+            <div ng-if="friend.userId != Message.receiverId" class="wrap" title="{{friend.username}}" ng-click="getMessage(friend.userId, friend.username, 'user', friend.messageId)">
+                <span ng-if="friend.status == 'online'" class="contact-status online"></span>
+                <span ng-if="friend.status != 'online'" class="contact-status"></span>
+                <img src="../img/avatar/{{friend.username}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{friend.username}}</p>
+                    <p class="preview" ng-if="!friend.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId == User.userId">You: {{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId != User.userId">{{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an link.
+                    </p>
+                </div>
+            </div>
+        </li>
+
+        <li ng-repeat="group in User.groupList track by group.groupId" ng-if="!filtName" class="contact">
+            <div ng-if="group.groupId == Message.receiverId" class="wrap active" title="{{group.groupName}}" ng-click="getMessage(group.groupId, group.groupName, 'group', group.messageId)">
+                <img src="../img/avatar/{{group.groupName}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{group.groupName}}</p>
+                    <p class="preview" ng-if="!group.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId == User.userId">You: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}}: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'inform'">{{group.lastMessage.message}}
+                    </p>
+                </div>
+            </div>
+
+            <div ng-if="group.groupId != Message.receiverId" class="wrap" title="{{group.groupName}}" ng-click="getMessage(group.groupId, group.groupName, 'group', group.messageId)">
+                <img src="../img/avatar/{{group.groupName}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{group.groupName}}</p>
+                    <p class="preview" ng-if="!group.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId == User.userId">You: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}}: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'inform'">{{group.lastMessage.message}}
+                    </p>
+                </div>
+            </div>
+        </li>
+
+        <li ng-repeat="friend in friendFiltResult track by friend.userId" ng-if="filtName" class="contact">
+            <div ng-if="friend.userId == Message.receiverId" class="wrap active" title="{{friend.username}}">
+                <span ng-if="friend.status == 'online'" class="contact-status online"></span>
+                <span ng-if="friend.status != 'online'" class="contact-status"></span>
+                <img src="../img/avatar/{{friend.username}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{friend.username}}</p>
+                    <p class="preview" ng-if="!friend.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId == User.userId">You: {{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId != User.userId">{{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an link.
+                    </p>
+                </div>
+            </div>
+
+            <div ng-if="friend.userId != Message.receiverId" class="wrap" title="{{friend.username}}" ng-click="getMessage(friend.userId, friend.username, 'user', friend.messageId)">
+                <span ng-if="friend.status == 'online'" class="contact-status online"></span>
+                <span ng-if="friend.status != 'online'" class="contact-status"></span>
+                <img src="../img/avatar/{{friend.username}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{friend.username}}</p>
+                    <p class="preview" ng-if="!friend.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId == User.userId">You: {{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'text' && friend.lastMessage.senderId != User.userId">{{friend.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'image' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'video' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'attachment' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="friend.lastMessage.messageType == 'link' && friend.lastMessage.senderId != User.userId">{{friend.username}} sent an link.
+                    </p>
+                </div>
+            </div>
+        </li>
+
+        <li ng-repeat="group in groupFiltResult track by group.groupId" ng-if="filtName" class="contact">
+            <div ng-if="group.groupId == Message.receiverId" class="wrap active" title="{{group.groupName}}">
+                <img src="../img/avatar/{{group.groupName}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{group.groupName}}</p>
+                    <p class="preview" ng-if="!group.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId == User.userId">You: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}}: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'inform'">{{group.lastMessage.message}}
+                    </p>
+                </div>
+            </div>
+
+            <div ng-if="group.groupId != Message.receiverId" class="wrap" title="{{group.groupName}}" ng-click="getMessage(group.groupId, group.groupName, 'group', group.messageId)">
+                <img src="../img/avatar/{{group.groupName}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                <div class="meta">
+                    <p class="name">{{group.groupName}}</p>
+                    <p class="preview" ng-if="!group.lastMessage">Select to start conversation.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId == User.userId">You: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'text' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}}: {{group.lastMessage.message}}
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId == User.userId">You sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'image' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an image.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId == User.userId">You sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'video' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent a video.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId == User.userId">You sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'attachment' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an attachment.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId == User.userId">You sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'link' && group.lastMessage.senderId != User.userId">{{group.lastMessage.sender}} sent an link.
+                    </p>
+                    <p class="preview" ng-if="group.lastMessage.messageType == 'inform'">{{group.lastMessage.message}}
+                    </p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

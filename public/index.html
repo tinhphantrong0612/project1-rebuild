@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/libs/jquery/dist/jquery.js"></script>
+    <script src="/libs/angular/angular.js"></script>
+    <script src="/libs/angular-route/angular-route.js"></script>
+    <script src="/libs/angular-cookies/angular-cookies.js"></script>
+    <script src="/libs/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="/libs/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.css">
+
+    <script src='./js/app.js'></script>
+    <script src='./js/services/authService.js'></script>
+    <script src='./js/controllers/loginCtrl.js'></script>
+    <script src='./js/controllers/registerCtrl.js'></script>
+    <script src='./js/factories/userFactory.js'></script>
+    <script src='./js/factories/messageFactory.js'></script>
+    <script src='./js/factories/notifyFactory.js'></script>
+    <script src='./js/services/socketService.js'></script>
+    <script src='./js/services/searchService.js'></script>
+    <script src='./js/services/friendRequestService.js'></script>
+    <script src='./js/services/groupService.js'></script>
+    <script src='./js/controllers/msgCtrl.js'></script>
+    <script src='./views/sidepanel/contactList.js'></script>
+    <script src='./views/sidepanel/addContact.js'></script>
+    <script src='./views/sidepanel/mySettings.js'></script>
+    <script src='./views/contentpanel/contentHeader.js'></script>
+    <script src='./views/contentpanel/myMessages.js'></script>
+    <script src='./views/contentpanel/singleMessage.js'></script>
+    <script src='./views/contentpanel/inputMessage.js'></script>
+    <script src='./js/appRoutes.js'></script>
+
+</head>
+<body ng-view>
+</body>
+</html>

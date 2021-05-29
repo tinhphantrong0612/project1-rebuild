@@ -1,0 +1,27 @@
+<div class="content card border-0">
+    <content-header></content-header>
+    <div class="messages card-body p-0 border-0">
+        <ul id="message-scrollbox">
+            <li ng-repeat="message in Message.messageList">
+                <single-message message='message' user-id='User.userId' user-name='User.username' message-id="Message.messageId" message-count="Message.messageCount"></single-message>
+            </li>
+        </ul>
+        <div id="seen" class="float-right mr-3" ng-if="Message.lastSender == User.userId">
+            <div>
+                <span class="float-right">
+                    <img class="seen-img" title="{{user.username}}" ng-repeat="user in Message.seen" ng-src="../img/avatar/{{user.username}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                </span>
+            </div>
+            <div class="float-right seen-text">{{Message.seenText}}</div>
+        </div>
+        <div id="seen" class="float-left ml-3" ng-if="Message.lastSender != User.userId">
+            <div>
+                <span class="float-left">
+                    <img class="seen-img" title="{{user.username}}" ng-repeat="user in Message.seen" ng-src="../img/avatar/{{user.username}}.png" onerror="this.src='../img/avatar/default.png'"/>
+                </span>
+            </div>
+            <div class="float-left seen-text">{{Message.seenText}}</div>
+        </div>
+    </div>
+    <input-message></input-message>
+</div>
